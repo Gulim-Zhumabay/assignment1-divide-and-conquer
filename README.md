@@ -4,7 +4,7 @@
 
 ### Purpose
 
-This project implements four classic divide-and-conquer algorithms in Java, analyses their running-time recurrences (Master Theorem and Akra–Bazzi intuition), measures them on inputs of different sizes and structures, and compares the measurements with the theory.
+This project implements four classic divide-and-conquer algorithms in Java, analyses their running-time recurrences (Master Theorem and Akra-Bazzi intuition), measures them on inputs of different sizes and structures, and compares the measurements with the theory.
 
 ### Implemented algorithms
 
@@ -61,7 +61,7 @@ Master Theorem: a = 2, b = 2, f(n) = Θ(n) = Θ(n^(log_b a)) = Θ(n¹), so case 
 
 **Complexity.** Expected time Θ(n log n). The worst case is O(n²) (the pivot is always the minimum or maximum), but with a random pivot this is extremely unlikely. Because the recursive call always gets at most half of the elements, the stack depth is at most log₂ n, so the extra space is O(log n). With only k distinct keys the 3-way partition gives O(n log k).
 
-**Recurrence.** Balanced case: T(n) = 2T(n/2) + Θ(n), which is case 2 of the Master Theorem and gives Θ(n log n). In general T(n) = T(k) + T(n − k − 1) + Θ(n) with a random k, which solves to Θ(n log n) in expectation. Worst case: T(n) = T(n − 1) + Θ(n) = Θ(n²) (an arithmetic series; the Master Theorem does not cover it).
+**Recurrence.** Balanced case: T(n) = 2T(n/2) + Θ(n), which is case 2 of the Master Theorem and gives Θ(n log n). In general T(n) = T(k) + T(n - k - 1) + Θ(n) with a random k, which solves to Θ(n log n) in expectation. Worst case: T(n) = T(n - 1) + Θ(n) = Θ(n²) (an arithmetic series; the Master Theorem does not cover it).
 
 ### B.3 Deterministic Select (Median-of-Medians)
 
@@ -74,7 +74,7 @@ Master Theorem: a = 2, b = 2, f(n) = Θ(n) = Θ(n^(log_b a)) = Θ(n¹), so case 
 **Complexity.** Worst-case time Θ(n). Extra space O(log n) for the recursion (the algorithm works in place).
 
 **Recurrence.** T(n) ≤ T(⌈n/5⌉) + T(7n/10 + 6) + Θ(n).
-The Master Theorem does not apply because the two subproblems have different sizes, so we use Akra–Bazzi intuition: find p such that (1/5)^p + (7/10)^p = 1. Since 1/5 + 7/10 = 9/10 < 1, we get p < 1. With g(n) = n, T(n) = Θ(n^p (1 + ∫ u / u^(p+1) du)) = Θ(n^p · n^(1−p)) = Θ(n).
+The Master Theorem does not apply because the two subproblems have different sizes, so we use Akra–Bazzi intuition: find p such that (1/5)^p + (7/10)^p = 1. Since 1/5 + 7/10 = 9/10 < 1, we get p < 1. With g(n) = n, T(n) = Θ(n^p (1 + ∫ u / u^(p+1) du)) = Θ(n^p · n^(1-p)) = Θ(n).
 
 ### B.4 Closest Pair of Points
 
@@ -184,10 +184,10 @@ Both axes of the time plot are logarithmic, so a growth like n log n or n appear
 ## D. Discussion
 
 **Do the results match the theoretical complexity?**
-Yes. When n grows 10× (100,000 -> 1,000,000) the time of MergeSort grows 12.7× and that of QuickSort 11.4×, close to the 12.0× predicted for n log n, while Select grows 10.1×, matching the linear 10×. For Closest Pair (10,000 -> 100,000) the time grows 9.0× instead of the predicted 12.5×, but its comparison counts follow n log n very closely. The comparison counts are even cleaner than the times: MergeSort makes about 1.0 · n log₂ n comparisons, QuickSort about 1.25 · n log₂ n, Closest Pair about 0.93 · n log₂ n, and Select about 7.6–8.6 · n for every size. The recursion depth grows by about 1 when n doubles, which is logarithmic behaviour. The measurements for small n are noisy (for example Select at n = 10,000 takes 2.7 ms, more than at n = 5,000 with 0.39 ms and comparable to n = 50,000 with 4.5 ms), which is a JIT/GC effect discussed below.
+Yes. When n grows 10× (100,000 -> 1,000,000) the time of MergeSort grows 12.7× and that of QuickSort 11.4×, close to the 12.0× predicted for n log n, while Select grows 10.1×, matching the linear 10×. For Closest Pair (10,000 -> 100,000) the time grows 9.0× instead of the predicted 12.5×, but its comparison counts follow n log n very closely. The comparison counts are even cleaner than the times: MergeSort makes about 1.0 · n log₂ n comparisons, QuickSort about 1.25 · n log₂ n, Closest Pair about 0.93 · n log₂ n, and Select about 7.6-8.6 · n for every size. The recursion depth grows by about 1 when n doubles, which is logarithmic behaviour. The measurements for small n are noisy (for example Select at n = 10,000 takes 2.7 ms, more than at n = 5,000 with 0.39 ms and comparable to n = 50,000 with 4.5 ms), which is a JIT/GC effect discussed below.
 
 **How does the input structure affect performance?**
-MergeSort always has the same depth (14 at n = 100,000) but is fastest on sorted data (3.0 ms vs 12.0 ms for random) because the merge step needs far fewer comparisons (744,016 vs 1,638,784). QuickSort with a random pivot does not degrade on sorted or reverse input: the comparison counts are almost equal to the random case (2.10 M vs 2.13 M), and it is even faster in time (9.0 ms vs 14.6 ms), most likely because the branches and memory accesses of the partition loop are more predictable on ordered data. On duplicate-heavy data the 3-way partition makes QuickSort the fastest sorter (2.4 ms) with a recursion depth of only 3, since there are just 10 distinct values. Select is only mildly affected (2.2–5.3 ms), and Closest Pair is slowest on random points (63 ms) and faster on sorted/reverse x-coordinates (30–33 ms), even though the comparison counts are almost the same; the initial sort of the points is probably cheaper on ordered data.
+MergeSort always has the same depth (14 at n = 100,000) but is fastest on sorted data (3.0 ms vs 12.0 ms for random) because the merge step needs far fewer comparisons (744,016 vs 1,638,784). QuickSort with a random pivot does not degrade on sorted or reverse input: the comparison counts are almost equal to the random case (2.10 M vs 2.13 M), and it is even faster in time (9.0 ms vs 14.6 ms), most likely because the branches and memory accesses of the partition loop are more predictable on ordered data. On duplicate-heavy data the 3-way partition makes QuickSort the fastest sorter (2.4 ms) with a recursion depth of only 3, since there are just 10 distinct values. Select is only mildly affected (2.2-5.3 ms), and Closest Pair is slowest on random points (63 ms) and faster on sorted/reverse x-coordinates (30–33 ms), even though the comparison counts are almost the same; the initial sort of the points is probably cheaper on ordered data.
 
 **Why does smaller-first recursion help QuickSort?**
 The recursive call always receives the smaller part, which has at most n/2 elements, and the larger part is processed by the loop of the same call. Therefore the stack depth is at most log₂ n even when the pivots are bad, whereas naive recursion on both parts can reach depth n and cause a stack overflow. The running time is unchanged; what improves is the guaranteed space: O(log n). In the experiments the depth at n = 1,000,000 is only 14 (the bound is ⌊log₂ 10⁶⌋ = 19).
@@ -196,7 +196,7 @@ The recursive call always receives the smaller part, which has at most n/2 eleme
 The pivot is the median of the medians of the groups of 5. At least half of the group medians are ≥ the pivot, and each of these groups contributes at least 3 elements ≥ the pivot, so at least about 3n/10 elements are ≥ the pivot (and symmetrically ≤). Hence the recursive call on one side gets at most 7n/10 elements. The algorithm does T(n) ≤ T(n/5) + T(7n/10) + cn. Because 1/5 + 7/10 = 9/10 < 1, the work shrinks geometrically: the total is at most cn(1 + 9/10 + (9/10)² + …) = 10cn. Equivalently, if T(k) ≤ ak for k < n, then T(n) ≤ (9/10)an + cn ≤ an for a ≥ 10c. In our data the number of comparisons stays between 7.6 · n and 8.6 · n for all sizes from 1,000 to 1,000,000.
 
 **Why is divide-and-conquer Closest Pair faster than O(n²) for large inputs?**
-Brute force checks n(n − 1)/2 pairs, which is about 5 · 10⁹ distance computations for n = 100,000. The divide-and-conquer version does only Θ(n) work per level over log n levels: after the recursion the only possible closer pairs cross the dividing line, they lie in a strip, and a packing argument shows that each point in the strip has to be compared with at most a constant number of neighbours (sorted by y). Our implementation needed 1.55 · 10⁶ comparisons for n = 100,000, about 3,000 times fewer than brute force, and its time grows as n log n instead of n².
+Brute force checks n(n - 1)/2 pairs, which is about 5 · 10⁹ distance computations for n = 100,000. The divide-and-conquer version does only Θ(n) work per level over log n levels: after the recursion the only possible closer pairs cross the dividing line, they lie in a strip, and a packing argument shows that each point in the strip has to be compared with at most a constant number of neighbours (sorted by y). Our implementation needed 1.55 · 10⁶ comparisons for n = 100,000, about 3,000 times fewer than brute force, and its time grows as n log n instead of n².
 
 **What practical factors affect performance (JVM, cache, GC, etc.)?**
 - *JIT compilation and warm-up.* The JVM first interprets the code and compiles hot methods later, so early runs are slower. We use 3 warm-up runs and the median of 5 measurements, but some outliers remain at small sizes (Select at n = 10,000, QuickSort at n = 5,000).
